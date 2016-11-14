@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrix.Console", "Matrix\Matrix.Console.csproj", "{8C0D7E2D-77E8-4E6D-8886-775E56B45D13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrix", "Matrix\Matrix.csproj", "{8C0D7E2D-77E8-4E6D-8886-775E56B45D13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrix.Portable", "Matrix.Portable\Matrix.Portable.csproj", "{C4C692A3-643A-4AE1-9304-EE2D03DC113A}"
 EndProject
