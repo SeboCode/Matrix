@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 
 namespace Matrix.Portable
 {
 	public class Matrix : ICloneable
 	{
-
-		private readonly double[][] _matrix;
+		private readonly double[,] _matrix;
 
 		public double this[int row, int column]
 		{
@@ -17,71 +15,42 @@ namespace Matrix.Portable
 					throw new IndexOutOfRangeException(nameof(_matrix));
 				}
 
-				return _matrix[row][column];
+				return _matrix[row, column];
 			}
-			private set
+			set
 			{
 				if (row < 0 || column < 0 || row >= RowCount || column >= ColumnCount)
 				{
 					throw new IndexOutOfRangeException(nameof(_matrix));
 				}
 
-				_matrix[row][column] = value;
+				_matrix[row, column] = value;
 			}
 		}
 
-		public Matrix(params double[][] rows)
+		public Matrix(double[,] array)
 		{
-			if (rows == null)
+			if (array == null)
 			{
-				throw new ArgumentNullException(nameof(rows));
+				throw new ArgumentNullException(nameof(array));
 			}
 
-			if (!rows.Any())
+			if (array.GetLength(0) == 0)
 			{
-				throw new ArgumentException(nameof(rows));
+				throw new ArgumentException(nameof(array));
 			}
 
-			if (!rows.First().Any())
+			if (array.GetLength(1) == 0)
 			{
-				throw new ArgumentException(nameof(rows));
+				throw new ArgumentException(nameof(array));
 			}
 
-			for (var x = 1; x < rows.Count(); x++)
-			{
-				if (rows[x].Count() != rows[x - 1].Count())
-				{
-					throw new ArgumentException(nameof(rows));
-				}
-			}
-
-			_matrix = new double[rows.Count()][];
-			Array.Copy(rows, _matrix, RowCount);
+			_matrix = array;
 		}
 
-		private Matrix(int rowCount, int columnCount)
-		{
-			if (rowCount < 1)
-			{
-				throw new ArgumentException(nameof(rowCount));
-			}
+		public int RowCount => _matrix.GetLength(0);
 
-			if (columnCount < 1)
-			{
-				throw new ArgumentException(nameof(columnCount));
-			}
-
-			_matrix = new double[rowCount][];
-
-			for (var x = 0; x < RowCount; x++)
-			{
-				_matrix[x] = new double[columnCount];
-			}
-		}
-
-		public int RowCount => _matrix.Count();
-
-		public int ColumnCount => _matrix.First().Count();
+		public int ColumnCount => _matrix.GetLength(1);
 
 		public bool IsSquare => RowCount == ColumnCount;
 
@@ -106,33 +75,33 @@ namespace Matrix.Portable
 				// todo implement own exception
 				throw new Exception();
 			}
-			
-			var returnMatrix = new Matrix(matrix.RowCount, matrix.ColumnCount);
+
+			var values = new double[matrix.RowCount, matrix.ColumnCount];
 
 			for (var x = 0; x < matrix.RowCount; x++)
 			{
 				for (var y = 0; y < matrix.ColumnCount; y++)
 				{
-					returnMatrix[x, y] = matrix[x, y] + matrix2[x, y];
+					values[x, y] = matrix[x, y] + matrix2[x, y];
 				}
 			}
 
-			return returnMatrix;
+			return new Matrix(values);
 		}
 
 		public static Matrix operator +(Matrix matrix, double skalar)
 		{
-			var returnMatrix = new Matrix(matrix.RowCount, matrix.ColumnCount);
+			var values = new double[matrix.RowCount, matrix.ColumnCount];
 
 			for (var x = 0; x < matrix.RowCount; x++)
 			{
 				for (var y = 0; y < matrix.ColumnCount; y++)
 				{
-					returnMatrix[x, y] = matrix[x, y] + skalar;
+					values[x, y] = matrix[x, y] + skalar;
 				}
 			}
 
-			return returnMatrix;
+			return new Matrix(values);
 		}
 
 		public static Matrix operator *(Matrix matrix, Matrix matrix2)
@@ -143,7 +112,7 @@ namespace Matrix.Portable
 				throw new Exception();
 			}
 
-			var returnMatrix = new Matrix(matrix.RowCount, matrix2.ColumnCount);
+			var values = new double[matrix.RowCount, matrix2.ColumnCount];
 
 			for (var x = 0; x < matrix.RowCount; x++)
 			{
@@ -151,42 +120,45 @@ namespace Matrix.Portable
 				{
 					for (var y = 0; y < matrix2.RowCount; y++)
 					{
-						returnMatrix[x, j] += matrix[x, y] * matrix2[y, j];
+						values[x, j] += matrix[x, y] * matrix2[y, j];
 					}
 				}
 			}
 
-			return returnMatrix;
+			return new Matrix(values);
 		}
 
 		public static Matrix operator *(Matrix matrix, double skalar)
 		{
-			var returnMatrix = new Matrix(matrix.RowCount, matrix.ColumnCount);
+			var values = new double[matrix.RowCount, matrix.ColumnCount];
 
 			for (var x = 0; x < matrix.RowCount; x++)
 			{
 				for (var y = 0; y < matrix.ColumnCount; y++)
 				{
-					returnMatrix[x, y] += matrix[x, y] * skalar;
+					values[x, y] += matrix[x, y] * skalar;
 				}
 			}
 
-			return returnMatrix;
+			return new Matrix(values);
 		}
 
 		public override string ToString()
 		{
 			var str = string.Empty;
 
-			_matrix.ForEach(column =>
+			for (var x = 0; x < RowCount; x++)
 			{
-				column.ForEach(element => str += $"{element}\t");
+				for (var y = 0; y < ColumnCount; y++)
+				{
+					str += $"{_matrix[x, y]}\t";
+				}
 
-				if (column != _matrix.Last())
+				if (x != RowCount - 1)
 				{
 					str += "\r\n";
 				}
-			});
+			}
 
 			return str;
 		}

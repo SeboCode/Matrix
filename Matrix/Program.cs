@@ -10,9 +10,9 @@ namespace Matrix
 
 		private Program()
 		{
-			_matrix = new Portable.Matrix(new double[] { 2, -1, 2 }, new double[] { -2, 3, 1 });
-			_matrix2 = new Portable.Matrix(new[] { 2.5, 3.4, 2.2 }, new[] { 8.5, 6.4, 4 });
-			_matrix3 = new Portable.Matrix(new double[] { -3, 2 }, new double[] { 2, 1 }, new double[] { 3, -1 });
+			_matrix = new Portable.Matrix(new double[,] {{2, -1, 2}, {-2, 3, 1}});
+			_matrix2 = new Portable.Matrix(new[,] {{2.5, 3.4, 2.2}, {8.5, 6.4, 4}});
+			_matrix3 = new Portable.Matrix(new double[,] {{-3, 2}, {2, 1}, {3, -1}});
 		}
 
 		public void PrintMatrix()
