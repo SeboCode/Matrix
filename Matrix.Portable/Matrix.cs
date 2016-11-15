@@ -47,9 +47,9 @@ namespace Matrix.Portable
 				throw new ArgumentException(nameof(rows));
 			}
 
-			for (var i = 1; i < rows.Length; i++)
+			for (var x = 1; x < rows.Length; x++)
 			{
-				if (rows[i].Length != rows[i - 1].Length)
+				if (rows[x].Length != rows[x - 1].Length)
 				{
 					throw new ArgumentException(nameof(rows));
 				}
@@ -63,9 +63,9 @@ namespace Matrix.Portable
 		{
 			_matrix = new double[columnSize][];
 
-			for (var i = 0; i < RowCount; i++)
+			for (var x = 0; x < RowCount; x++)
 			{
-				_matrix[i] = new double[rowSize];
+				_matrix[x] = new double[rowSize];
 			}
 		}
 
@@ -99,11 +99,11 @@ namespace Matrix.Portable
 			
 			var returnMatrix = new Matrix(matrix.RowCount, matrix.ColumnCount);
 
-			for (var i = 0; i < matrix.RowCount; i++)
+			for (var x = 0; x < matrix.RowCount; x++)
 			{
-				for (var x = 0; x < matrix.ColumnCount; x++)
+				for (var y = 0; y < matrix.ColumnCount; y++)
 				{
-					returnMatrix[i, x] = matrix[i, x] + matrix2[i, x];
+					returnMatrix[x, y] = matrix[x, y] + matrix2[x, y];
 				}
 			}
 
@@ -114,11 +114,11 @@ namespace Matrix.Portable
 		{
 			var returnMatrix = new Matrix(matrix.RowCount, matrix.ColumnCount);
 
-			for (var i = 0; i < matrix.RowCount; i++)
+			for (var x = 0; x < matrix.RowCount; x++)
 			{
-				for (var x = 0; x < matrix.ColumnCount; x++)
+				for (var y = 0; y < matrix.ColumnCount; y++)
 				{
-					returnMatrix[i, x] = matrix[i, x] + skalar;
+					returnMatrix[x, y] = matrix[x, y] + skalar;
 				}
 			}
 
@@ -135,13 +135,13 @@ namespace Matrix.Portable
 
 			var returnMatrix = new Matrix(matrix.RowCount, matrix2.ColumnCount);
 
-			for (var i = 0; i < matrix.RowCount; i++)
+			for (var x = 0; x < matrix.RowCount; x++)
 			{
 				for (var j = 0; j < matrix2.ColumnCount; j++)
 				{
-					for (var x = 0; x < matrix2.RowCount; x++)
+					for (var y = 0; y < matrix2.RowCount; y++)
 					{
-						returnMatrix[i, j] += matrix[i, x] * matrix2[x, j];
+						returnMatrix[x, j] += matrix[x, y] * matrix2[y, j];
 					}
 				}
 			}
@@ -153,11 +153,11 @@ namespace Matrix.Portable
 		{
 			var returnMatrix = new Matrix(matrix.RowCount, matrix.ColumnCount);
 
-			for (var i = 0; i < matrix.RowCount; i++)
+			for (var x = 0; x < matrix.RowCount; x++)
 			{
-				for (var x = 0; x < matrix.ColumnCount; x++)
+				for (var y = 0; y < matrix.ColumnCount; y++)
 				{
-					returnMatrix[i, x] += matrix[i, x] * skalar;
+					returnMatrix[x, y] += matrix[x, y] * skalar;
 				}
 			}
 
