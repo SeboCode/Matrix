@@ -5,7 +5,7 @@ namespace Matrix.Portable
     public class Matrix : ICloneable
     {
 		
-	    private double[][] _matrix;
+	    private readonly double[][] _matrix;
 
 	    public double this[int column, int row]
 	    {
@@ -75,5 +75,18 @@ namespace Matrix.Portable
 		{
 			throw new NotImplementedException();
 		}
+
+	    public override string ToString()
+	    {
+		    var str = string.Empty;
+
+			_matrix.ForEach(column =>
+			{
+				column.ForEach(element => str += $"{element} ");
+				str += "\r\n";
+			});
+
+		    return str;
+	    }
     }
 }
