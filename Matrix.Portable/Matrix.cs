@@ -72,8 +72,7 @@ namespace Matrix.Portable
 		{
 			if (matrix.RowCount != matrix2.RowCount || matrix.ColumnCount != matrix2.ColumnCount)
 			{
-				// todo implement own exception
-				throw new Exception();
+				throw new MatricesDontMatchException($"{nameof(matrix)} and {nameof(matrix2)} don't match for an addition");
 			}
 
 			var values = new double[matrix.RowCount, matrix.ColumnCount];
@@ -108,8 +107,7 @@ namespace Matrix.Portable
 		{
 			if (matrix.RowCount != matrix2.ColumnCount)
 			{
-				// todo implement own exception
-				throw new Exception();
+				throw new MatricesDontMatchException($"{nameof(matrix)} and {nameof(matrix2)} don't match for a multiplication");
 			}
 
 			var values = new double[matrix.RowCount, matrix2.ColumnCount];
