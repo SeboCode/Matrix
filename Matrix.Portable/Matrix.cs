@@ -2,91 +2,94 @@
 
 namespace Matrix.Portable
 {
-    public class Matrix : ICloneable
-    {
-		
-	    private readonly double[][] _matrix;
+	public class Matrix<T> : ICloneable
+		where T : struct, IComparable<T>
+	{
 
-	    public double this[int column, int row]
-	    {
-		    get
-		    {
-			    if (column < 0 || row < 0 || column >= ColumnCount || row >= RowCount)
-				{
-					throw new IndexOutOfRangeException(nameof(_matrix));
-				}
+	private readonly T[][] _matrix;
 
-			    return _matrix[column][row];
-		    }
-			set
+	public T this[int column, int row]
+	{
+		get
+		{
+			if (column < 0 || row < 0 || column >= ColumnCount || row >= RowCount)
 			{
-				if (column < 0 || row < 0 || column >= ColumnCount || row >= RowCount)
-				{
-					throw new IndexOutOfRangeException(nameof(_matrix));
-				}
-
-				_matrix[column][row] = value;
+				throw new IndexOutOfRangeException(nameof(_matrix));
 			}
+
+			return _matrix[column][row];
+		}
+		set
+		{
+			if (column < 0 || row < 0 || column >= ColumnCount || row >= RowCount)
+			{
+				throw new IndexOutOfRangeException(nameof(_matrix));
+			}
+
+			_matrix[column][row] = value;
+		}
+	}
+
+	public Matrix(params T[][] columns)
+	{
+		if (columns == null)
+		{
+			throw new ArgumentNullException(nameof(columns));
 		}
 
-		public Matrix(params double[][] columns)
+		if (columns.Length < 1)
 		{
-			if (columns == null)
-			{
-				throw new ArgumentNullException(nameof(columns));
-			}
+			throw new ArgumentException(nameof(columns));
+		}
 
-			if (columns.Length < 1)
+		if (columns[0].Length < 1)
+		{
+			throw new ArgumentException(nameof(columns));
+		}
+
+		for (var i = 1; i < columns.Length; i++)
+		{
+			if (columns[i].Length != columns[i - 1].Length)
 			{
 				throw new ArgumentException(nameof(columns));
 			}
-
-			if (columns[0].Length < 1)
-			{
-				throw new ArgumentException(nameof(columns));
-			}
-
-			for (var i = 1; i < columns.Length; i++)
-			{
-				if (columns[i].Length != columns[i - 1].Length)
-				{
-					throw new ArgumentException(nameof(columns));
-				}
-			}
-
-			_matrix = new double[columns.Length][];
-			Array.Copy(columns, _matrix, columns.Length);
 		}
 
-	    public int ColumnCount => _matrix.Length;
+		_matrix = new T[columns.Length][];
+		Array.Copy(columns, _matrix, columns.Length);
+	}
 
-	    public int RowCount => _matrix[0].Length;
+	public int ColumnCount => _matrix.Length;
 
-		private bool _isInverseMatrixCalculated = false;
-		private Matrix _inverseMatrix;
-		public Matrix InverseMatrix => _isInverseMatrixCalculated ? _inverseMatrix : (_inverseMatrix = CalculateInverseMatrix());
+	public int RowCount => _matrix[0].Length;
 
-		private Matrix CalculateInverseMatrix()
+	private bool _isInverseMatrixCalculated = false;
+	private Matrix<T> _inverseMatrix;
+
+	public Matrix<T> InverseMatrix
+		=> _isInverseMatrixCalculated ? _inverseMatrix : (_inverseMatrix = CalculateInverseMatrix());
+
+	private Matrix<T> CalculateInverseMatrix()
+	{
+		throw new NotImplementedException();
+	}
+
+	public object Clone()
+	{
+		throw new NotImplementedException();
+	}
+
+	public override string ToString()
+	{
+		var str = string.Empty;
+
+		_matrix.ForEach(column =>
 		{
-			throw new NotImplementedException();
-		}
+			column.ForEach(element => str += $"{element} ");
+			str += "\r\n";
+		});
 
-		public object Clone()
-		{
-			throw new NotImplementedException();
-		}
-
-	    public override string ToString()
-	    {
-		    var str = string.Empty;
-
-			_matrix.ForEach(column =>
-			{
-				column.ForEach(element => str += $"{element} ");
-				str += "\r\n";
-			});
-
-		    return str;
-	    }
-    }
+		return str;
+	}
+	}
 }
