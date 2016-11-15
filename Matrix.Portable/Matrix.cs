@@ -37,41 +37,51 @@ namespace Matrix.Portable
 				throw new ArgumentNullException(nameof(rows));
 			}
 
-			if (rows.Length < 1)
+			if (!rows.Any())
 			{
 				throw new ArgumentException(nameof(rows));
 			}
 
-			if (rows[0].Length < 1)
+			if (!rows.First().Any())
 			{
 				throw new ArgumentException(nameof(rows));
 			}
 
-			for (var x = 1; x < rows.Length; x++)
+			for (var x = 1; x < rows.Count(); x++)
 			{
-				if (rows[x].Length != rows[x - 1].Length)
+				if (rows[x].Count() != rows[x - 1].Count())
 				{
 					throw new ArgumentException(nameof(rows));
 				}
 			}
 
-			_matrix = new double[rows.Length][];
-			Array.Copy(rows, _matrix, rows.Length);
+			_matrix = new double[rows.Count()][];
+			Array.Copy(rows, _matrix, RowCount);
 		}
 
-		private Matrix(int columnSize, int rowSize)
+		private Matrix(int rowCount, int columnCount)
 		{
-			_matrix = new double[columnSize][];
+			if (rowCount < 1)
+			{
+				throw new ArgumentException(nameof(rowCount));
+			}
+
+			if (columnCount < 1)
+			{
+				throw new ArgumentException(nameof(columnCount));
+			}
+
+			_matrix = new double[rowCount][];
 
 			for (var x = 0; x < RowCount; x++)
 			{
-				_matrix[x] = new double[rowSize];
+				_matrix[x] = new double[columnCount];
 			}
 		}
 
-		public int RowCount => _matrix.Length;
+		public int RowCount => _matrix.Count();
 
-		public int ColumnCount => _matrix[0].Length;
+		public int ColumnCount => _matrix.First().Count();
 
 		public bool IsSquare => RowCount == ColumnCount;
 
