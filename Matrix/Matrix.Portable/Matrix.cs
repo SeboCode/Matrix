@@ -6,7 +6,7 @@ namespace Matrix.Portable
 	{
 		private readonly double[,] _matrix;
 
-		public double this[int row, int column]
+		public virtual double this[int row, int column]
 		{
 			get
 			{
@@ -54,19 +54,15 @@ namespace Matrix.Portable
 
 		public bool IsSquare => RowCount == ColumnCount;
 
-		private bool _isInverseMatrixCalculated = false;
-		private Matrix _inverseMatrix;
-		public Matrix InverseMatrix => _isInverseMatrixCalculated ? _inverseMatrix : (_inverseMatrix = CalculateInverseMatrix());
-
-		private Matrix CalculateInverseMatrix()
-		{
-			throw new NotImplementedException();
-		}
-
 		public object Clone()
 		{
 			throw new NotImplementedException();
 		}
+
+	    public SquareMatrix ToSquareMatrix()
+	    {
+	        return new SquareMatrix(_matrix);
+	    }
 
 		public static Matrix operator +(Matrix matrix, Matrix matrix2)
 		{
