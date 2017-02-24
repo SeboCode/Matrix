@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeterminantZeroException.cs" />
     <Compile Include="Matrix.cs" />
     <Compile Include="MatricesDontMatchException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

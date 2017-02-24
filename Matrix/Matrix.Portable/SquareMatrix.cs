@@ -9,6 +9,7 @@ namespace Matrix.Portable
             set
             {
                 base[row, column] = value;
+                _determinantCalculated = false;
                 _isInverseMatrixCalculated = false;
             }
         }
@@ -21,12 +22,33 @@ namespace Matrix.Portable
             }
         }
 
-        private bool _isInverseMatrixCalculated = false;
-        private Matrix _inverseMatrix;
-        public Matrix InverseMatrix => _isInverseMatrixCalculated ? _inverseMatrix : (_inverseMatrix = CalculateInverseMatrix());
+        private bool _determinantCalculated = false;
+        private double _determinant;
+        public double Determinant => _determinantCalculated ? _determinant : (_determinant = CalculateDeterminant());
 
-        private Matrix CalculateInverseMatrix()
+        private double CalculateDeterminant()
         {
+            if (ColumnCount == 1)
+            {
+                return this[0, 0];
+            }
+
+            var determinant = 0;
+            _determinantCalculated = true;
+            return determinant;
+        }
+
+        private bool _isInverseMatrixCalculated = false;
+        private SquareMatrix _inverseMatrix;
+        public SquareMatrix InverseMatrix => _isInverseMatrixCalculated ? _inverseMatrix : (_inverseMatrix = CalculateInverseMatrix());
+
+        private SquareMatrix CalculateInverseMatrix()
+        {
+            if (Math.Abs(Determinant) < 0.0000000001)
+            {
+                throw new DeterminantZeroException();
+            }
+
             _isInverseMatrixCalculated = true;
             throw new NotImplementedException();
         }

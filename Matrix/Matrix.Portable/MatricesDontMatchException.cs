@@ -4,6 +4,10 @@ namespace Matrix.Portable
 {
     public class MatricesDontMatchException : Exception
     {
+        public MatricesDontMatchException() : base()
+        {
+        }
+
         public MatricesDontMatchException(string message) : base(message)
         {
         }
