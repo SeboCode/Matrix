@@ -59,6 +59,11 @@ namespace Matrix.Portable
             throw new NotImplementedException();
         }
 
+        public bool SameSize(Matrix matrix)
+        {
+            return RowCount == matrix.RowCount && ColumnCount == matrix.ColumnCount;
+        }
+
         public SquareMatrix ToSquareMatrix()
         {
             return new SquareMatrix(_matrix);
@@ -66,7 +71,7 @@ namespace Matrix.Portable
 
         public static Matrix operator +(Matrix matrix, Matrix matrix2)
         {
-            if (matrix.RowCount != matrix2.RowCount || matrix.ColumnCount != matrix2.ColumnCount)
+            if (matrix.SameSize(matrix2))
             {
                 throw new MatricesDontMatchException($"{nameof(matrix)} and {nameof(matrix2)} don't match for an addition");
             }
@@ -93,6 +98,41 @@ namespace Matrix.Portable
                 for (var y = 0; y < matrix.ColumnCount; y++)
                 {
                     values[x, y] = matrix[x, y] + skalar;
+                }
+            }
+
+            return new Matrix(values);
+        }
+
+        public static Matrix operator -(Matrix matrix, Matrix matrix2)
+        {
+            if (matrix.SameSize(matrix2))
+            {
+                throw new MatricesDontMatchException($"{nameof(matrix)} and {nameof(matrix2)} don't match for a subtraction");
+            }
+
+            var values = new double[matrix.RowCount, matrix.ColumnCount];
+
+            for (var x = 0; x < matrix.RowCount; x++)
+            {
+                for (var y = 0; y < matrix.ColumnCount; y++)
+                {
+                    values[x, y] = matrix[x, y] - matrix2[x, y];
+                }
+            }
+
+            return new Matrix(values);
+        }
+
+        public static Matrix operator -(Matrix matrix, double skalar)
+        {
+            var values = new double[matrix.RowCount, matrix.ColumnCount];
+
+            for (var x = 0; x < matrix.RowCount; x++)
+            {
+                for (var y = 0; y < matrix.ColumnCount; y++)
+                {
+                    values[x, y] = matrix[x, y] - skalar;
                 }
             }
 
