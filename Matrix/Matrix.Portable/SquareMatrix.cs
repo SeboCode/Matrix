@@ -33,7 +33,15 @@ namespace Matrix.Portable
                 return _matrix[0, 0];
             }
 
-            var determinant = 0;
+            var determinant = 0.0;
+
+            for (var i = 0; i < RowCount; i++)
+            {
+                var factor = _matrix[0, i];
+                var subMatrix = RemoveRow(0).RemoveColumn(i).ToSquareMatrix();
+                determinant += factor * subMatrix.Determinant * Math.Pow(-1, i);
+            }
+
             _determinantCalculated = true;
             return determinant;
         }

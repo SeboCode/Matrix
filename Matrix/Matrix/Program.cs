@@ -19,6 +19,7 @@ namespace Matrix
             _submatrix3 = _matrix3.SubMatrix(new Point(0, 0), new Point(2, 2));
             DrawTable(_matrix3);
             DrawTable(_submatrix3);
+            Console.WriteLine(_submatrix3.ToSquareMatrix().Determinant);
         }
 
         public void DrawTable(Portable.Matrix matrix)
