@@ -30,7 +30,7 @@ namespace Matrix.Portable
         {
             if (ColumnCount == 1)
             {
-                return this[0, 0];
+                return _matrix[0, 0];
             }
 
             var determinant = 0;

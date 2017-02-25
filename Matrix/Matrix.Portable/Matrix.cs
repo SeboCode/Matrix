@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Drawing;
 
 namespace Matrix.Portable
 {
     public class Matrix : ICloneable
     {
-        private readonly double[,] _matrix;
+        protected readonly double[,] _matrix;
 
         public virtual double this[int row, int column]
         {
@@ -87,6 +86,62 @@ namespace Matrix.Portable
             }
 
             return new Matrix(values);
+        }
+
+        public Matrix RemoveRow(int rowNumber)
+        {
+            if (rowNumber < 0 || rowNumber > RowCount)
+            {
+                throw new ArgumentException(nameof(rowNumber));
+            }
+
+            var value = new double[RowCount - 1, ColumnCount];
+            var valueRow = 0;
+
+            for (var x = 0; x < RowCount; x++)
+            {
+                if (x == rowNumber)
+                {
+                    continue;
+                }
+
+                for (var y = 0; y < ColumnCount; y++)
+                {
+                    value[valueRow, y] = _matrix[x, y];
+                }
+
+                valueRow++;
+            }
+
+            return new Matrix(value);
+        }
+
+        public Matrix RemoveColumn(int columnNumber)
+        {
+            if (columnNumber < 0 || columnNumber > ColumnCount)
+            {
+                throw new ArgumentException(nameof(columnNumber));
+            }
+
+            var value = new double[RowCount, ColumnCount - 1];
+            var valueColumn = 0;
+
+            for (var y = 0; y < ColumnCount; y++)
+            {
+                if (y == columnNumber)
+                {
+                    continue;
+                }
+
+                for (var x = 0; x < RowCount; x++)
+                {
+                    value[x, valueColumn] = _matrix[x, y];
+                }
+
+                valueColumn++;
+            }
+
+            return new Matrix(value);
         }
 
         public bool SameSize(Matrix matrix)
