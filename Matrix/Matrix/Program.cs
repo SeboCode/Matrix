@@ -20,6 +20,8 @@ namespace Matrix
             DrawTable(_matrix3);
             DrawTable(_submatrix3);
             Console.WriteLine(_submatrix3.ToSquareMatrix().Determinant);
+            _matrix3.ToArray()[0, 0] = 100000;
+            DrawTable(_matrix3);
         }
 
         public void DrawTable(Portable.Matrix matrix)

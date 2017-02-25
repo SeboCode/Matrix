@@ -160,6 +160,11 @@ namespace Matrix.Portable
             return new SquareMatrix(_matrix);
         }
 
+        public double[,] ToArray()
+        {
+            return _matrix.Clone() as double[,];
+        }
+
         public object Clone()
         {
             throw new NotImplementedException();
