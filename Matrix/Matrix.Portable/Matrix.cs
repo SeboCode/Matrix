@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Matrix.Portable
 {
@@ -54,19 +55,58 @@ namespace Matrix.Portable
 
         public bool IsSquare => RowCount == ColumnCount;
 
-        public object Clone()
+        /// <summary>
+        /// Get a submatrix.
+        /// </summary>
+        /// <remarks>
+        /// The X element of the point is used for the row and the Y for the column
+        /// </remarks>
+        /// <param name="topLeft">Including topleft point</param>
+        /// <param name="bottomRight">Excluding bottomright point</param>
+        /// <returns>The submatrix as a new matrix instance</returns>
+        public Matrix SubMatrix(Point topLeft, Point bottomRight)
         {
-            throw new NotImplementedException();
+            if (topLeft.X < 0 || topLeft.Y < 0 || topLeft.X > RowCount - 1 || topLeft.Y > ColumnCount - 1)
+            {
+                throw new ArgumentException(nameof(topLeft));
+            }
+
+            if (bottomRight.X < 1 || bottomRight.Y < 1 || bottomRight.X > RowCount || bottomRight.Y > ColumnCount)
+            {
+                throw new ArgumentException(nameof(bottomRight));
+            }
+
+            var values = new double[bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y];
+
+            for (var x = topLeft.X; x < bottomRight.X; x++)
+            {
+                for (var y = topLeft.Y; y < bottomRight.Y; y++)
+                {
+                    values[x, y] = _matrix[x, y];
+                }
+            }
+
+            return new Matrix(values);
         }
 
         public bool SameSize(Matrix matrix)
         {
+            if (matrix == null)
+            {
+                return false;
+            }
+
             return RowCount == matrix.RowCount && ColumnCount == matrix.ColumnCount;
         }
 
         public SquareMatrix ToSquareMatrix()
         {
             return new SquareMatrix(_matrix);
+        }
+
+        public object Clone()
+        {
+            throw new NotImplementedException();
         }
 
         public static Matrix operator +(Matrix matrix, Matrix matrix2)

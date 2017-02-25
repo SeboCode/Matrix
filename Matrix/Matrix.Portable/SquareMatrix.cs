@@ -52,5 +52,11 @@ namespace Matrix.Portable
             _isInverseMatrixCalculated = true;
             throw new NotImplementedException();
         }
+
+        public SquareMatrix SubMatrix(Point topLeft, int size)
+        {
+            var bottomRight = new Point(topLeft.X + size, topLeft.Y + size);
+            return SubMatrix(topLeft, bottomRight).ToSquareMatrix();
+        }
     }
 }
