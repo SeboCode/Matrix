@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Matrix.Portable
+﻿namespace Matrix.Portable.Exception
 {
-    public class DeterminantZeroException : Exception
+    public class DeterminantZeroException : System.Exception
     {
         public DeterminantZeroException() : base()
         {

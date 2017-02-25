@@ -1,4 +1,5 @@
 ﻿using System;
+using Matrix.Portable.Exception;
 
 namespace Matrix.Portable
 {

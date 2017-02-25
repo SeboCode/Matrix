@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Matrix.Portable
+﻿namespace Matrix.Portable.Exception
 {
-    public class MatricesDontMatchException : Exception
+    public class MatricesDontMatchException : System.Exception
     {
         public MatricesDontMatchException() : base()
         {
